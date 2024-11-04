@@ -1,3 +1,4 @@
+import { Button } from "./components/ui/button";
 import Image from "next/image";
 import Link from "next/link"
 import { NeonIcon } from "./_icons/Neon"
@@ -13,6 +14,9 @@ import {
 } from "./components/ui/card"
 import { cn } from "./lib/utils";
 import { formatCompactNumber } from "./lib/formatters"
+import { ArrowRightIcon, CheckIcon } from "lucide-react"
+import { ReactNode } from "react";
+import { BrandLogo } from "./components/BrandLogo"
 
 
 export default function Home() {
@@ -26,6 +30,9 @@ export default function Home() {
         Optimize your product pricing across countries to maximize sales.
         Capture 85% of the untapped market with location-based dynamic pricing
       </p>
+      <Button className="text-lg p-6 rounded-xl flex gap-2">
+            Get started for free <ArrowRightIcon className="size-5" />
+      </Button>
     </section>
     <section className="bg-primary text-primary-foreground">
       <div className="container py-16 flex flex-col gap-16 px-8 md:px-16">
@@ -76,6 +83,75 @@ export default function Home() {
           ))}
         </div>
       </section>
+      <footer className="container pt-16 pb-8 flex flex-col sm:flex-row gap-8 sm:gap-4 justify-between items-start">
+        <Link href="/">
+          <BrandLogo />
+        </Link>
+        <div className="flex flex-col sm:flex-row gap-8">
+          <div className="flex flex-col gap-8">
+            <FooterLinkGroup
+              title="Help"
+              links={[
+                { label: "PPP Discounts", href: "#" },
+                { label: "Discount API", href: "#" },
+              ]}
+            />
+            <FooterLinkGroup
+              title="Solutions"
+              links={[
+                { label: "Newsletter", href: "#" },
+                { label: "SaaS Business", href: "#" },
+                { label: "Online Courses", href: "#" },
+              ]}
+            />
+          </div>
+          <div className="flex flex-col gap-8">
+            <FooterLinkGroup
+              title="Features"
+              links={[{ label: "PPP Discounts", href: "#" }]}
+            />
+            <FooterLinkGroup
+              title="Tools"
+              links={[
+                { label: "Salary Converter", href: "#" },
+                { label: "Coupon Generator", href: "#" },
+                { label: "Stripe App", href: "#" },
+              ]}
+            />
+            <FooterLinkGroup
+              title="Company"
+              links={[
+                { label: "Affiliate", href: "#" },
+                { label: "Twitter", href: "#" },
+                { label: "Terms of Service", href: "#" },
+              ]}
+            />
+          </div>
+          <div className="flex flex-col gap-8">
+            <FooterLinkGroup
+              title="Integrations"
+              links={[
+                { label: "Lemon Squeezy", href: "#" },
+                { label: "Gumroad", href: "#" },
+                { label: "Stripe", href: "#" },
+                { label: "Chargebee", href: "#" },
+                { label: "Paddle", href: "#" },
+              ]}
+            />
+            <FooterLinkGroup
+              title="Tutorials"
+              links={[
+                { label: "Any Website", href: "#" },
+                { label: "Lemon Squeezy", href: "#" },
+                { label: "Gumroad", href: "#" },
+                { label: "Stripe", href: "#" },
+                { label: "Chargebee", href: "#" },
+                { label: "Paddle", href: "#" },
+              ]}
+            />
+          </div>
+        </div>
+      </footer>
 
     </>
   );
@@ -114,7 +190,59 @@ function PricingCard({
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <Button
+          className="text-lg w-full rounded-lg"
+          variant={isMostPopular ? "accent" : "default"}
+        >
+          Get Started
+        </Button>
       </CardContent>
+      <CardFooter className="flex flex-col gap-4 items-start">
+        <Feature className="font-bold">
+          {maxNumberOfProducts}{" "}
+          {maxNumberOfProducts === 1 ? "product" : "products"}
+        </Feature>
+        <Feature>PPP discounts</Feature>
+        {canAccessAnalytics && <Feature>Advanced analytics</Feature>}
+        {canRemoveBranding && <Feature>Remove Easy PPP branding</Feature>}
+        {canCustomizeBanner && <Feature>Banner customization</Feature>}
+      </CardFooter>
     </Card>
+  )
+}
+
+function Feature({
+  children,
+  className,
+}: {
+  children: ReactNode
+  className?: string
+}) {
+  return (
+    <div className={cn("flex items-center gap-2", className)}>
+      <CheckIcon className="size-4 stroke-accent bg-accent/25 rounded-full p-0.5" />
+      <span>{children}</span>
+    </div>
+  )
+}
+
+function FooterLinkGroup({
+  title,
+  links,
+}: {
+  title: string
+  links: { label: string; href: string }[]
+}) {
+  return (
+    <div className="flex flex-col gap-4">
+      <h3 className="font-semibold">{title}</h3>
+      <ul className="flex flex-col gap-2 text-sm">
+        {links.map(link => (
+          <li key={link.href}>
+            <Link href={link.href}>{link.label}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
